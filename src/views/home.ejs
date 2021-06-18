@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('./partials/header.ejs') %>
+<title>Home</title>
+</head>
+<body class="bg-gray-800 font-body">
+   
+   <!-- Navbar -->
+   <nav class=" h-10 w-full bg-purple-500 flex justify-between">
+     <div>NoteYacht</div>
+     <div>
+         <ul class="flex w-96 justify-around">
+             <li><a href="/home">home</a></li>
+             <li><a href="/logout">Logout</a></li>
+             <li><a href="/logoutAll">logoutAll</a></li>
+             <li>User</li>
+             <li><a href="/">Login</a></li>
+             <li><a href="/register">Register</a></li>
+         </ul>
+     </div>
+   </nav>
+
+   <h1 class=" text-white ">Hello <%= name %> this is the home page you are authenticated only for 5 minutes.</h1>
+</body>
+</html>
