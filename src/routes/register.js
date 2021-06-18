@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user.model');
-const jwt = require("jsonwebtoken")
-const cookieParser = require('cookie-parser');
+const Str = require('@supercharge/strings');
+const mail = require('../services/mail');
 
 router.get('/register', (req, res) => {
 
@@ -15,19 +15,21 @@ router.post("/register", async (req, res) => {
         
        const password = req.body.password;
        const confirmPassword = req.body.confirmPassword;
+       var randomStr;
 
        if(password === confirmPassword) {
-           
+           randomStr = Str.random(150);
            const newUser = new User({
             email: req.body.email,
             name: req.body.name,
             username: req.body.username,
+            tempString: randomStr,
             password: req.body.password,
             confirmPassword: req.body.confirmPassword
            })
 
            const token = await newUser.generateAuthToken()
-        
+           
         // The res.cookie() function is used to set the cookie name to value.
         // The value parameter may be a string or object converted to JSON
 
@@ -38,6 +40,8 @@ router.post("/register", async (req, res) => {
            });
 
            const registered = await newUser.save()
+           const link = `http://localhost:3000/verifyEmail/${randomStr}`;
+           mail.verifyEmail(newUser.email, link);
            res.status(201).redirect("/home");
        }
        else {
@@ -46,6 +50,24 @@ router.post("/register", async (req, res) => {
 
     } catch (error) {
         res.status(400).send(error);
+    }
+})
+
+router.get('/verifyEmail/:str', async (req, res) => {
+    const tempString = req.params.str;
+    const user = await User.findOne({tempString});
+    console.log('-----------------------------------------------------------------------');
+    console.log(user);
+    
+    if(user) {
+        user.isVerified = true;
+        user.tempString = undefined;
+        user.save().then(()=>{console.log('User Saved')}).catch(err => {console.log(err)});
+        console.log(user.isVerified)
+        res.send('You have been verified');
+    }
+    else {
+        res.send('Invalid user');
     }
 })
 
