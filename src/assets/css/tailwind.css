@@ -43,11 +43,15 @@
         @apply no-underline text-white focus:ring-2 focus:ring-opacity-75;
       }
       .btn-link-blue {
-        @apply bg-blue-500 rounded-md py-2 hover:bg-blue-700
+        @apply bg-blue-500 rounded-md py-2 hover:bg-blue-700;
       }
 
       .err {
         @apply text-red-600;
+      }
+
+      .input {
+        @apply w-full p-2 border rounded-md border-gray-700 my-1 focus:outline-none;
       }
 }
 

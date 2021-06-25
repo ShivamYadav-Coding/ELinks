@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
    email: {
        type: String,
        unique: true,
-       required: true
+       required: [true, "Email is required."]
    },
    isVerified: { 
        type: Boolean, 
@@ -20,19 +20,18 @@ const userSchema = new mongoose.Schema({
    username: {
        type: String,
        unique: true,
-       required: true
+       required: [true, "username is required."]
    },
    tempString: {
        type: String
    },
    password: {
        type: String,
-       required: true
+       required: [true, "password is required."]
    },
    tokens:[{
        token: {
-           type: String,
-           required: true
+           type: String
        }
    }]
 });
@@ -49,6 +48,18 @@ userSchema.methods.generateAuthToken = async function(req, res) {
         res.send("the error part " + error);
         console.log("the error part " + error);
     }
+}
+
+// Hiding private data
+userSchema.methods.hideData = function() {
+    const user = this;
+    const userObject = user.toObject();
+
+    delete userObject.password;
+    delete userObject.tokens;
+    delete userObject._id;
+
+    return userObject;
 }
 
 userSchema.pre('save', async function save(next) {
