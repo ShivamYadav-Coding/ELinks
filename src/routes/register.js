@@ -42,7 +42,7 @@ router.post("/register", async (req, res) => {
            const registered = await newUser.save()
            const link = `http://localhost:3000/verifyEmail/${randomStr}`;
            mail.verifyEmail(newUser.email, link);
-           res.status(201).redirect("/home");
+           res.send("An email has been sent to your email Id for verification. Please click on that email to verify yourself.");
        }
        else {
            res.send("Passwords are not matching");

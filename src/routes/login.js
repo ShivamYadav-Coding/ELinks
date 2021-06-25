@@ -19,6 +19,10 @@ router.post('/', async (req, res) => {
           return res.send("Invalid login details");
       }
 
+      if(user.isVerified == false) {
+          return res.send("Your email has not been verified yet, so please verify your email by clicking on verification link i.e., sent to your emial.")
+      }
+
       const isMatch = await bcrypt.compare(password, user.password);
     
       if(isMatch) {
