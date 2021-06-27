@@ -20,13 +20,16 @@
         <!-- Email id -->
         <div class="form-element text-left m-2">
             <label for="email" class="text-indigo-600 text-xl font-semibold italic font-headings">Enter your Email</label>
-            <input type="email" name="email" id="" placeholder="example@gmail.com" class="w-full p-2 border rounded-md border-gray-700 my-2 focus:outline-none focus:shadow-lg">
+            <input type="email" name="email" id="email1" placeholder="example@gmail.com" class="w-full p-2 border rounded-md border-gray-700 my-2 focus:outline-none focus:shadow-lg">
         </div>
 
         <!-- Password -->
         <div class="form-element text-left m-2">
             <label for="password" class="text-indigo-600  text-xl font-semibold italic font-headings">Enter your Password</label>
-            <input type="password" name="password" id="" placeholder="***********" class="w-full p-2 border rounded-md border-gray-700 my-2 focus:outline-none focus:shadow-lg">
+            <input type="password" name="password" id="password1" placeholder="***********" class="w-full p-2 border rounded-md border-gray-700 my-2 focus:outline-none focus:shadow-lg">
+            <% if(errors) { %>
+                <p class="err"><%= errors.message %></p>
+            <% } %>
         </div>
 
         <!-- Submit Button -->
@@ -37,6 +40,5 @@
         </div>
     </form>
 </div>
-<script src="js/script.js"></script>
 </body>
 </html>

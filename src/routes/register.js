@@ -3,25 +3,37 @@ const router = express.Router();
 const User = require('../models/user.model');
 const Str = require('@supercharge/strings');
 const mail = require('../services/mail');
-var assert = require('assert');
+const { restart } = require('nodemon');
+
+const errorFormatter = e => {
+    const errors = {}
+    // "User validation failed: email: Email is required., name: Name is required., username: Path `username` is required., password: Password is required"
+    const allErrors = e.substring(e.indexOf(':') + 1).trim();
+    
+    const allErrorsInArrayFormat = allErrors.split(',').map(ele => ele.trim());
+    
+    allErrorsInArrayFormat.forEach(err => {
+        const [key, value] = err.split(':').map(ele => ele.trim());
+        errors[key] = value;
+    });
+
+    return errors;
+}
 
 router.get('/register', (req, res) => {
 
-    res.render('register');
+    res.render('register', {formData: false, errors: false});
 })
 
 // Create a new user in our database
 router.post("/register", async (req, res) => {
     try {
-       const email = req.body.email;
-       const name = req.body.name;
-       const username = req.body.username; 
+
        const password = req.body.password;
        const confirmPassword = req.body.confirmPassword;
-       var randomStr;
+       const randomStr = Str.random(150);
 
        if(password === confirmPassword) {
-           randomStr = Str.random(150);
            const newUser = new User({
             email: req.body.email,
             name: req.body.name,
@@ -31,40 +43,25 @@ router.post("/register", async (req, res) => {
             confirmPassword: req.body.confirmPassword
            })
 
-        //    const token = await newUser.generateAuthToken();
-           
-        // The res.cookie() function is used to set the cookie name to value.
-        // The value parameter may be a string or object converted to JSON
 
-        // res.cookie(name, value, [options]);
-        //    res.cookie("jwt", token, {
-        //        expires: new Date(Date.now() + 5000), // expires in 1800000 second i.e., 30 minutes
-        //        httpOnly:true // For only server side change in cookies data
-        //    });
-
-           const registered = await newUser.save()
-           .then((user) => {
-               // If everything goes as planed
-               //use the retured user document for something
-                res.redirect("/");
-           })
-           .catch((error) => {
-               //When there are errors We handle them here
-               console.log(error.errors);
-               res.status(400).send("Bad Request");
-       
-           });
+           await newUser.save()
            const link = `http://localhost:3000/verifyEmail/${randomStr}`;
            mail.verifyEmail(newUser.email, link);
            res.send("An email has been sent to your email Id for verification. Please click on that email to verify yourself.");
+           
        }
        else {
-           res.send("Passwords are not matching");
+        res.render('register', {formData: req.body, errors: {
+            confirmPassword: 'Does not match with password.'
+        }});
        }
 
-    } catch (error) {
-        console.log(error);
-        res.send(error);
+    } catch (err) {
+        console.log('=====================================================================\n')
+        const errors = errorFormatter(err.message);
+        console.log(errors);
+        res.render('register', {formData: req.body, errors: errors});
+        
     }
 })
 
