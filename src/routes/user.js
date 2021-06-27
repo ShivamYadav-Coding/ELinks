@@ -29,8 +29,8 @@ router.post('/forgotPassword', async (req, res) => {
             const token = jwt.sign({_id:user._id.toString()}, process.env.SECRET_KEY, {
                 expiresIn : 60*15 // will expires in 15 minutes
               });
-            const link = `http://localhost:3000/resetPassword/${token}`;
-            mail.verifyEmail(user.email, link);
+            const link = `${process.env.baseAddress}/resetPassword/${token}`;
+            mail.sendEmail(user.email, 'Reset password', 'A request has been made to reset password of your NoteYacht account. So, you can click on below link to reset your password.', link, 'Reset Password');
             res.render('message', {
                 message: {
                     heading: 'We have sent the reset link.',
@@ -64,7 +64,14 @@ router.get('/resetPassword/:token', (req, res) => {
     jwt.verify(token, process.env.SECRET_KEY, async function(err, decoded) {
         if (err) 
         {
-            return res.render('somethingWentWrong');
+            return res.render('message', {
+                message: {
+                    heading: 'Reset link expired',
+                    paragraph: 'Looks like reset link for your password has been expired. Click on below button to generate new Link.',
+                    link: '/forgotPassword',
+                    linkText: 'Generate new link'
+                }
+            });
         }
         
         console.log(decoded);

@@ -8,12 +8,19 @@ var transporter = nodemailer.createTransport({
     }
   });
 
-  function verifyEmail(receiver, link) {
+  function sendEmail(receiver, subject, paragraph, link, linkText) {
     var mailOptions = {
         from: process.env.email,
         to: receiver,
-        subject: 'Authenticate your NoteYacht Accout',
-        text: link
+        subject: `${subject}`,
+        html: `<div style="width: 100%; text-align: center;">
+        <h1 style="color: darkslategray; font-family: 'Times New Roman', Times, serif;">NoteYacht</h1>
+        <p style="color: darkslategrey; font-size: 1.20rem; font-family: Georgia, 'Times New Roman', Times, serif;">
+        ${paragraph }
+        </p><br>
+    
+        <a href="${link}" style="text-decoration: none; color: floralwhite; background-color: seagreen; padding: .5rem 1rem; font-size: 1.25rem; border-radius: .5rem;">${linkText}</a>
+    </div>`
       };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -25,8 +32,4 @@ var transporter = nodemailer.createTransport({
      });
   }
 
-  function resetEmail(receiver, link) {
-      console.log('sending reser email..');
-  }
-
-  module.exports = { verifyEmail, resetEmail};
+module.exports = { sendEmail };
