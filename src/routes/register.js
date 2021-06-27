@@ -47,7 +47,12 @@ router.post("/register", async (req, res) => {
            await newUser.save()
            const link = `http://localhost:3000/verifyEmail/${randomStr}`;
            mail.verifyEmail(newUser.email, link);
-           res.send("An email has been sent to your email Id for verification. Please click on that email to verify yourself.");
+           res.render('message', {
+               message: {
+                   heading: 'Verify your email',
+                   paragraph: 'We have sent a link to your specified email Id. Please link on that link to verify your Email.'
+               }
+           });
            
        }
        else {
@@ -76,7 +81,14 @@ router.get('/verifyEmail/:str', async (req, res) => {
         user.tempString = undefined;
         user.save().then(()=>{console.log('User Saved')}).catch(err => {console.log(err)});
         console.log(user.isVerified)
-        res.send('You have been verified');
+        res.render('message', {
+            message: {
+                heading: 'Email Verified Successfully ;)',
+                paragraph: 'Your email has been successfully verified now you can login into your account.',
+                link: '/',
+                linkText: 'Go to login page'
+            }
+        });
     }
     else {
         res.send('Invalid user');

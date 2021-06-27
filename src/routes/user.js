@@ -4,7 +4,6 @@ const auth = require('../middlewares/auth');
 const User = require('../models/user.model');
 const mail = require('../services/mail');
 const jwt = require('jsonwebtoken');
-const { urlencoded } = require('express');
 
 router.get('/home', auth, (req, res) => {
     const user = req.user;
@@ -15,7 +14,10 @@ router.get('/home', auth, (req, res) => {
 })
 
 router.get('/forgotPassword', (req, res) => {
-    res.render('forgotPassword');
+    res.render('forgotPassword', {
+        formData: false,
+        errors: false
+    });
 })
 
 router.post('/forgotPassword', async (req, res) => {
@@ -29,15 +31,29 @@ router.post('/forgotPassword', async (req, res) => {
               });
             const link = `http://localhost:3000/resetPassword/${token}`;
             mail.verifyEmail(user.email, link);
-            res.send('An email has been sent to your account for resetting your password.');
+            res.render('message', {
+                message: {
+                    heading: 'We have sent the reset link.',
+                    paragraph: 'A reset link has been sent to your specified email Id. Please click on it to reser your password.'
+                }
+            });
         }
         else {
-            res.send("We don't have any user registered by this email.");
+            res.render('forgotPassword', {
+
+
+
+                formData:req.body,
+                errors:{
+                type: 'Invalid Credentials',
+                message: "We don't have any user with this email Id."
+            }
+        });
         }
     }
 
     catch(err) {
-        res.send(err);
+        res.render('SomethingWentWrong');
     }
 })
 
@@ -48,7 +64,7 @@ router.get('/resetPassword/:token', (req, res) => {
     jwt.verify(token, process.env.SECRET_KEY, async function(err, decoded) {
         if (err) 
         {
-            return res.send('Sorry some error occured!');
+            return res.render('somethingWentWrong');
         }
         
         console.log(decoded);
@@ -57,11 +73,13 @@ router.get('/resetPassword/:token', (req, res) => {
         console.log(user);
         if(user) {
             res.render('resetPassword', {
-                email: user.email
+                email: user.email,
+                formData: false,
+                errors: false
             });
         }
         else {
-            res.send('Invalid request');
+            res.render('404');
         }
       });
     
@@ -80,24 +98,29 @@ router.post('/resetPassword', async (req, res) => {
         if(password == cpassword) {
             user.password = password;
             user.save();
-            console.log(`User password has been changed to ${user.password}`)
-            console.log('Password has been changed');
-            res.send('Your Password has been successfully changed');
+            res.render('message', {
+                message: {
+                    heading: 'Password changed',
+                    paragraph: 'Your password has been successfully changed.',
+                    link: '/',
+                    linkText: 'Got to login page.'
+                }
+            });
+        }
+        else {
+            res.render('resetPassword', {
+                email: email,
+                formData: req.body, 
+                errors:{
+                    type: 'Password mismatch',
+                    message: "Password and confirm password didn't match."
+                }
+            });
         }
     }
     else {
-        res.send('Sorry some error occured!');
+        res.render('somethingWentWrong');
     }
 })
 
 module.exports = router;
-
-
-// const token = jwt.sign({_id:user._id.toString()}, process.env.SECRET_KEY);
-//             console.log(token);
-//             const userId = jwt.decode(token, process.env.SECRET_KEY);
-//             console.log(`User ID is : ${userId._id} `);
-//             const user2 = await User.findOne({_id:userId._id});
-//             if(user2) {
-//                 console.log(`User2 name is ${user.username}`);
-//             }

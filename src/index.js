@@ -24,8 +24,8 @@ app.use(register);
 app.use(user);
 app.use(logout);
 
-app.get('/', (req, res) => {
-    res.send("This time we are gonnna do it... ;)");
+app.get('*', (req, res) => {
+    res.render('404');
 })
 
 const port = 3000||process.env.PORT;

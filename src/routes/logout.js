@@ -15,7 +15,7 @@ router.get("/logout", auth, async(req, res) => {
         await req.user.save();
         res.redirect("/");
     } catch (error) { 
-        res.status(500).send(error);
+        res.render('somethingWentWrong');
     }
 })
 
@@ -28,7 +28,7 @@ router.get('/logoutAll', auth, async (req, res) => {
         await req.user.save();
         res.redirect("/");
     } catch (error) { 
-        res.status(500).send(error);
+        res.render('somethingWentWrong');
     }    
 })
 

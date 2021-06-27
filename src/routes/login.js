@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 
 router.get('/', (req, res) => {
 
-    res.render('login', {errors: false});
+    res.render('login', {formData:false, errors: false});
 })
 
 router.post('/', async (req, res) => {
@@ -16,14 +16,18 @@ router.post('/', async (req, res) => {
       const user = await User.findOne({email: email});
 
       if(!user) {
-          return res.render('login', {errors:{
+          return res.render('login', {
+            formData: req.body,
+            errors:{
             type: 'Invalid Credentials',
             message: 'Invalid Credentials.'
         }});
       }
 
       if(user.isVerified == false) {
-          return res.render('login',{errors:{
+          return res.render('login',{
+            formData: req.body,
+            errors:{
             type: 'Account Unverified',
             message: 'Your email has not been verified yet. Please Check your Email for verification link!'
         }});
@@ -45,14 +49,16 @@ router.post('/', async (req, res) => {
         res.status(201).redirect("/home");
       }
       else {
-          res.render('login', {errors:{
+          res.render('login', {
+            formData: req.body,
+            errors:{
             type: 'Invalid Credentials',
             message: 'Invalid Credentials.'
         }})
       }
 
   } catch (error) {
-      res.status(400).send('Something went worng!');
+      res.render('somethingWentWrong');
   }
 })
 
