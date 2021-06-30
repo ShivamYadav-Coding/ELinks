@@ -73,19 +73,16 @@ router.post("/register", async (req, res) => {
 router.get('/verifyEmail/:str', async (req, res) => {
     const tempString = req.params.str;
     const user = await User.findOne({tempString});
-    console.log('-----------------------------------------------------------------------');
-    console.log(user);
     
     if(user) {
         user.isVerified = true;
         user.tempString = undefined;
         user.save().then(()=>{console.log('User Saved')}).catch(err => {console.log(err)});
-        console.log(user.isVerified)
         res.render('message', {
             message: {
                 heading: 'Email Verified Successfully ;)',
                 paragraph: 'Your email has been successfully verified now you can login into your account.',
-                link: '/',
+                link: '/login',
                 linkText: 'Go to login page'
             }
         });

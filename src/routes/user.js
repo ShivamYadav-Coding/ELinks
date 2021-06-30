@@ -5,9 +5,8 @@ const User = require('../models/user.model');
 const mail = require('../services/mail');
 const jwt = require('jsonwebtoken');
 
-router.get('/home', auth, (req, res) => {
+router.get('/', auth, (req, res) => {
     const user = req.user;
-    console.log(user);
     res.render('home', {
         name: user.email
     })
@@ -58,7 +57,6 @@ router.post('/forgotPassword', async (req, res) => {
 })
 
 router.get('/resetPassword/:token', (req, res) => {
-    console.log('\n---------------------------------------------------------------------\n');
     const token = req.params.token;
 
     jwt.verify(token, process.env.SECRET_KEY, async function(err, decoded) {
@@ -74,10 +72,8 @@ router.get('/resetPassword/:token', (req, res) => {
             });
         }
         
-        console.log(decoded);
         const userId = decoded._id;
         const user = await User.findOne({_id:userId});
-        console.log(user);
         if(user) {
             res.render('resetPassword', {
                 email: user.email,
@@ -94,13 +90,11 @@ router.get('/resetPassword/:token', (req, res) => {
 
 router.post('/resetPassword', async (req, res) => {
     const email = req.body.email;
-    console.log(email)
     const password = req.body.password;
-    console.log(password)
     const cpassword = req.body.confirmPassword;
 
     const user = await User.findOne({email});
-    console.log(user.username)
+    
     if(user) {
         if(password == cpassword) {
             user.password = password;
@@ -109,7 +103,7 @@ router.post('/resetPassword', async (req, res) => {
                 message: {
                     heading: 'Password changed',
                     paragraph: 'Your password has been successfully changed.',
-                    link: '/',
+                    link: '/login',
                     linkText: 'Got to login page.'
                 }
             });
