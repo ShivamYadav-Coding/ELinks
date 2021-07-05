@@ -12,6 +12,10 @@ router.get('/', auth, (req, res) => {
     })
 })
 
+router.get('/notes', auth, (req, res) => {
+    res.render('notes');
+})
+
 router.get('/forgotPassword', (req, res) => {
     res.render('forgotPassword', {
         formData: false,

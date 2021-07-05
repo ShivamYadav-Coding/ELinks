@@ -51,7 +51,7 @@
       }
 
       .input {
-        @apply w-full p-2 border rounded-md border-gray-700 my-1 focus:outline-none;
+        @apply p-2 border rounded-md border-gray-700 my-1 focus:outline-none focus:shadow-md;
       }
 }
 

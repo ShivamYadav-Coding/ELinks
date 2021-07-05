@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require('../models/user.model');
 const Str = require('@supercharge/strings');
 const mail = require('../services/mail');
-const { restart } = require('nodemon');
 
 const errorFormatter = e => {
     const errors = {}
