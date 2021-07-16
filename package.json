@@ -14,12 +14,16 @@
     "@supercharge/strings": "^1.18.0",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.5",
+    "crypto": "^1.0.1",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-validator": "^6.12.0",
     "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
     "mongoose": "^5.12.14",
+    "multer": "^1.4.2",
+    "multer-gridfs-storage": "^5.0.0",
     "nodemailer": "^6.6.2"
   },
   "devDependencies": {

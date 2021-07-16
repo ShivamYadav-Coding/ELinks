@@ -12,7 +12,7 @@ app.set('views', path.join(__dirname, './views'));
 const login = require('./routes/login');
 const register = require('./routes/register');
 const user = require('./routes/user');
-const logout = require('./routes/logout')
+const logout = require('./routes/logout');
 
 app.use(express.json()); // works for postman but important for form also
 app.use(cookieParser())

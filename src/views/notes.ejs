@@ -7,10 +7,12 @@
 <body class="bg-gray-600 font-body box-border">
 
 <!-- Model -->
-<div class="fixed z-10 bg-gray-500 bg-opacity-50 flex justify-center items-center min-h-screen min-w-full inset-0 overflow-y-auto">
+<div id="drop-Modal-Box" class="fixed z-10 hidden bg-gray-500 bg-opacity-50 flex justify-center items-center min-h-screen min-w-full inset-0 overflow-y-auto">
 
   <div class=" w-80 p-2 rounded-lg bg-gray-100 ">
-    <div class="w-full p-4 flex items-center flex-col rounded-lg border-dashed border-2 border-gray-300"> 
+    <i class="far fa-times-circle absolute cursor-pointer text-xl hover:text-red-700" id="drop-modal-close"></i>
+    <div class="w-full p-4 flex justify-center items-center flex-col rounded-lg border-dashed border-2 border-gray-300"> 
+
           <i class="fas fa-truck-loading  text-5xl text-gray-500 transform translate-x-10"></i>
           <i class="fas fa-box-open text-7xl text-gray-500"></i>
           <div class="mt-4">Drop your files here or, <span class="text-indigo-500">browse</span></div>
@@ -39,9 +41,9 @@
   </div>
 </section>
 
-<div class= "p-4 overflow-y-auto flex flex-wrap rounded-xl w-full" style="min-height: 90vh; max-height: 90vh;">
+<div class= "p-4 overflow-y-auto cursor-pointer flex flex-wrap rounded-xl w-full" style="min-height: 90vh; max-height: 90vh;">
   
-  <div class=" h-48 w-40 m-4 rounded-lg hover:text-gray-400 text-8xl flex justify-center items-center text-gray-500 cursor-pointer bg-gray-700 ">
+  <div id="add-New-Notes-Btn" class="h-48 w-40 m-4 rounded-lg hover:text-gray-400 text-8xl flex justify-center items-center text-gray-500 cursor-pointer bg-gray-700 ">
     <i class="fas fa-plus"></i>
   </div>
 
