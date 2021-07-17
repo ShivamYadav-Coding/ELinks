@@ -14,7 +14,7 @@ var transporter = nodemailer.createTransport({
         to: receiver,
         subject: `${subject}`,
         html: `<div style="width: 100%; text-align: center;">
-        <h1 style="color: darkslategray; font-family: 'Times New Roman', Times, serif;">NoteYacht</h1>
+        <h1 style="color: darkslategray; font-family: 'Times New Roman', Times, serif;">ELinks</h1>
         <p style="color: darkslategrey; font-size: 1.20rem; font-family: Georgia, 'Times New Roman', Times, serif;">
         ${paragraph }
         </p><br>

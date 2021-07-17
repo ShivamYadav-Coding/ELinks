@@ -45,7 +45,7 @@ router.post("/register", async (req, res) => {
 
            await newUser.save()
            const link = `${process.env.baseAddress}/verifyEmail/${randomStr}`;
-           mail.sendEmail(newUser.email, 'Email Verification', 'Please verify your email for NoteYacht account by clicking on link below.', link, 'Verify Email');
+           mail.sendEmail(newUser.email, 'Email Verification', 'Please verify your email for ELinks account by clicking on link below.', link, 'Verify Email');
            res.render('message', {
                message: {
                    heading: 'Verify your email',

@@ -48,7 +48,7 @@ router.post('/forgotPassword', async (req, res) => {
                 expiresIn : 60*15 // will expires in 15 minutes
               });
             const link = `${process.env.baseAddress}/resetPassword/${token}`;
-            mail.sendEmail(user.email, 'Reset password', 'A request has been made to reset password of your NoteYacht account. So, you can click on below link to reset your password, please note that this link is validated for only 15 minutes.', link, 'Reset Password');
+            mail.sendEmail(user.email, 'Reset password', 'A request has been made to reset password of your ELinks account. So, you can click on below link to reset your password, please note that this link is validated for only 15 minutes.', link, 'Reset Password');
             res.render('message', {
                 message: {
                     heading: 'We have sent the reset link.',
