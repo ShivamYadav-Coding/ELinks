@@ -6,21 +6,6 @@
 </head>
 <body class="bg-gray-600 font-body box-border">
 
-<!-- Model -->
-<div id="drop-Modal-Box" class="fixed z-10 hidden bg-gray-500 bg-opacity-50 flex justify-center items-center min-h-screen min-w-full inset-0 overflow-y-auto">
-
-  <div class=" w-80 p-2 rounded-lg bg-gray-100 ">
-    <i class="far fa-times-circle absolute cursor-pointer text-xl hover:text-red-700" id="drop-modal-close"></i>
-    <div class="w-full p-4 flex justify-center items-center flex-col rounded-lg border-dashed border-2 border-gray-300"> 
-
-          <i class="fas fa-truck-loading  text-5xl text-gray-500 transform translate-x-10"></i>
-          <i class="fas fa-box-open text-7xl text-gray-500"></i>
-          <div class="mt-4">Drop your files here or, <span class="text-indigo-500">browse</span></div>
-    </div>
-  </div>
-
-</div>
-
    <!-- Navbar -->
    <%- include('./partials/navbar.ejs') %>
   
@@ -29,7 +14,7 @@
   <!-- Add new bookmark -->
   <div class="text-center p-4">
       <h1 class=" text-gray-100 ">Add New Bookmark</h1><br>
-      <form id="bookmarkForm" action="/bookmarks" method="post" class="w-full flex flex-col md:flex-row items-start md:justify-around" onsubmit="return mySubmitFunction(event)">
+      <form id="bookmarkForm" action="/bookmarks" method="POST" class="w-full flex flex-col md:flex-row md:items-start md:justify-around" onsubmit="return mySubmitFunction(event)">
         <div class="md:w-3/12">
         <input type="text" id="bookmarkName" name="bookmarkName" class="input w-full" placeholder="Enter bookmark name">
         <p class="text-red-400 hidden" id="err1">Name is required.</p>
@@ -46,15 +31,24 @@
   </div>
 
   <!-- Bookmarks -->
-  <div class="flex" id="bookmarkSec">
-    <div id="1" class=" bg-gray-800 w-60 flex flex-col items-center rounded-lg m-4 p-2">
-      <h1 class="text-gray-50 overflow-x-auto">Facebook</h1>      
-      <p class="overflow-x-auto w-52 text-gray-100 my-2">QrLmmW69vjldkfvn.jkacndfvnlnslkjvnbf,bjvnkjdkjdMQD...</p>
+  <div class="flex flex-wrap" id="bookmarkSec">
+    <% if(arr && arr.length > 0){ %>
+    <% for(var i=0; i<arr.length; i++){ %>
+    <div id="<%= arr[i]._id %>" class=" bg-gray-800 w-60 flex flex-col items-center rounded-lg m-4 p-2">
+      <h1 class="text-gray-50 overflow-x-auto"><%= arr[i].name %></h1>      
+      <p class="overflow-x-auto w-52 text-gray-100 my-2"><%= arr[i].address %></p>
       <div class="flex justify-between w-full items-center my-2">
-      <a href="/register" class="btn-link btn-link-blue text-center w-48" target="_blank" rel="noopener noreferrer">Visit</a>
-      <i class="fas fa-trash text-red-500 text-2xl"></i>
+      <a href='<%= arr[i].address %>' class="btn-link btn-link-blue text-center w-48" target="_blank" rel="noopener noreferrer">Visit</a>
+      <form action="/bookmarksDel" method="POST">
+      <input type="hidden" name="Id" value='<%= arr[i]._id %>'>
+      <button type="submit">
+      <i class="fas fa-trash text-red-500 text-2xl cursor-pointer"></i>
+      </button>
+      </form>
       </div>
     </div>
+    <% } %>
+    <% } %>
   </div>
 </div>
 

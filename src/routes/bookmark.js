@@ -13,7 +13,20 @@ router.post('/bookmarks', auth, async (req, res) => {
     
     await user.save();
     console.log(user);
-    res.send('adding')
+    res.redirect('/notes');
+})
+
+router.post('/bookmarksDel', auth, async (req, res) => {
+
+    var user = await User.findOne({email:req.user.email});
+    for(var i=0; i<user.bookmarks.length; i++) {
+    
+        if(user.bookmarks[i]._id == req.body.Id) {
+             user.bookmarks.splice(i, 1);
+        }
+    }
+    await user.save();
+    res.redirect('/notes');
 })
 
 module.exports = router;

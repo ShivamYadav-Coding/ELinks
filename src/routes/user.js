@@ -13,7 +13,11 @@ router.get('/', auth, (req, res) => {
 })
 
 router.get('/notes', auth, (req, res) => {
-    res.render('notes');
+    const arr = req.user.bookmarks.slice();
+    console.log(arr);
+    res.render('notes', {
+        arr
+    });
 })
 
 router.get('/forgotPassword', (req, res) => {
