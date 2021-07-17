@@ -24,34 +24,41 @@
    <!-- Navbar -->
    <%- include('./partials/navbar.ejs') %>
   
-<div class="flex" id="mainNotesContent">
-   <!-- Sidebar -->
-  <section id="sidenav" class="flex min-h-full">
-  
-  <div class="max-h-full min-h-full w-48 flex flex-col bg-gray-700 overflow-x-auto overflow-y-auto" id="tags">
-       
+<div class="flex flex-col" id="mainContent">
+ 
+  <!-- Add new bookmark -->
+  <div class="text-center p-4">
+      <h1 class=" text-gray-100 ">Add New Bookmark</h1><br>
+      <form id="bookmarkForm" action="/bookmarks" method="post" class="w-full flex flex-col md:flex-row items-start md:justify-around" onsubmit="return mySubmitFunction(event)">
+        <div class="md:w-3/12">
+        <input type="text" id="bookmarkName" name="bookmarkName" class="input w-full" placeholder="Enter bookmark name">
+        <p class="text-red-400 hidden" id="err1">Name is required.</p>
+        </div>
 
+        <div class="md:w-5/12">
+        <input type="url" id="bookmarkUrl" name="bookmarkUrl" class="input w-full" placeholder="Enter its URL">
+        <p class="text-red-400 hidden" id="err2">Url is required.</p>
+        </div>
+
+        <button type="submit" class="btn bg-gray-800 md:w-2/12" id="submitBtn">Add new Bookmark</button>
+      </form>
+      <hr>
   </div>
 
-  <div class="max-h-full min-h-full w-16 bg-gray-800 text-gray-100 text-4xl justify-center overflow-x-auto overflow-y-auto">
-     <div class="flex justify-center mt-4 mb-10"><i class="fas fa-arrow-circle-left cursor-pointer"></i></div>
-     <div class="flex justify-center my-6"><i class="fas fa-globe cursor-pointer"></i></div>
-     <div class="flex justify-center my-6"><i class="fas fa-user-friends cursor-pointer"></i></div>
-     <div class="flex justify-center my-6"><i class="fas fa-user-shield cursor-pointer"></i></div>
+  <!-- Bookmarks -->
+  <div class="flex" id="bookmarkSec">
+    <div id="1" class=" bg-gray-800 w-60 flex flex-col items-center rounded-lg m-4 p-2">
+      <h1 class="text-gray-50 overflow-x-auto">Facebook</h1>      
+      <p class="overflow-x-auto w-52 text-gray-100 my-2">QrLmmW69vjldkfvn.jkacndfvnlnslkjvnbf,bjvnkjdkjdMQD...</p>
+      <div class="flex justify-between w-full items-center my-2">
+      <a href="/register" class="btn-link btn-link-blue text-center w-48" target="_blank" rel="noopener noreferrer">Visit</a>
+      <i class="fas fa-trash text-red-500 text-2xl"></i>
+      </div>
+    </div>
   </div>
-</section>
-
-<div class= "p-4 overflow-y-auto cursor-pointer flex flex-wrap rounded-xl w-full" style="min-height: 90vh; max-height: 90vh;">
-  
-  <div id="add-New-Notes-Btn" class="h-48 w-40 m-4 rounded-lg hover:text-gray-400 text-8xl flex justify-center items-center text-gray-500 cursor-pointer bg-gray-700 ">
-    <i class="fas fa-plus"></i>
-  </div>
-
 </div>
 
-</div>
 
-
-  <script src="/js/script.js"></script>
+  <script src="/js/bookmark.js"></script>
   </body>
 </html>

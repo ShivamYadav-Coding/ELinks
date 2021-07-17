@@ -29,6 +29,16 @@ const userSchema = new mongoose.Schema({
        type: String,
        required: [true, 'Password is required']
    },
+   bookmarks: [{
+       name: {
+           type: String,
+           trim: true
+       },
+       address: {
+           type: String,
+           trim: true
+       }
+   }],
    tokens:[{
        token: {
            type: String
@@ -49,6 +59,8 @@ userSchema.methods.generateAuthToken = async function(req, res) {
         console.log("the error part " + error);
     }
 }
+
+// Genrate new folder
 
 // Hiding private data
 userSchema.methods.hideData = function() {

@@ -13,6 +13,7 @@ const login = require('./routes/login');
 const register = require('./routes/register');
 const user = require('./routes/user');
 const logout = require('./routes/logout');
+const bookmark = require('./routes/bookmark');
 
 app.use(express.json()); // works for postman but important for form also
 app.use(cookieParser())
@@ -23,6 +24,7 @@ app.use(login);
 app.use(register);
 app.use(user);
 app.use(logout);
+app.use(bookmark);
 
 app.get('*', (req, res) => {
     res.render('404');
