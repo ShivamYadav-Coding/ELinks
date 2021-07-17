@@ -6,18 +6,15 @@ const mail = require('../services/mail');
 const jwt = require('jsonwebtoken');
 
 router.get('/', auth, (req, res) => {
-    const user = req.user;
-    res.render('home', {
-        name: user.email
-    })
-})
-
-router.get('/notes', auth, (req, res) => {
     const arr = req.user.bookmarks.slice();
     console.log(arr);
-    res.render('notes', {
+    res.render('home', {
         arr
     });
+})
+
+router.get('/about', (req, res) => {
+    res.render('about');
 })
 
 router.get('/forgotPassword', (req, res) => {

@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     },
    username: {
        type: String,
-       required: [true, 'Username is required'],
+       required: [true, 'Username is required.'],
        unique: [true, 'Username is already taken.']
    },
    tempString: {
@@ -27,7 +27,8 @@ const userSchema = new mongoose.Schema({
    },
    password: {
        type: String,
-       required: [true, 'Password is required']
+       required: [true, 'Password is required.'],
+       minlength: [8, 'Password must be of 8 characters.']
    },
    bookmarks: [{
        name: {

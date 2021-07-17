@@ -13,7 +13,7 @@ router.post('/bookmarks', auth, async (req, res) => {
     
     await user.save();
     console.log(user);
-    res.redirect('/notes');
+    res.redirect('/');
 })
 
 router.post('/bookmarksDel', auth, async (req, res) => {
@@ -26,7 +26,7 @@ router.post('/bookmarksDel', auth, async (req, res) => {
         }
     }
     await user.save();
-    res.redirect('/notes');
+    res.redirect('/');
 })
 
 module.exports = router;

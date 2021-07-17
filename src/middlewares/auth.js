@@ -11,8 +11,7 @@ const auth = async (req, res, next) => {
         const user = await User.findOne({_id:verifyUser._id});
 
         req.token = token;
-        user.hideData();
-        req.user = user.hideData();       
+        req.user = user;       
 
         next();
     } catch (error) {

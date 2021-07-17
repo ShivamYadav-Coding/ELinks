@@ -5,7 +5,7 @@ const auth = require('../middlewares/auth');
 
 router.get("/logout", auth, async(req, res) => {
     try {
-
+        console.log(req.user)
         req.user.tokens = req.user.tokens.filter((curElement) => {
             return curElement.token != req.token;
         })
@@ -15,6 +15,7 @@ router.get("/logout", auth, async(req, res) => {
         await req.user.save();
         res.redirect("/");
     } catch (error) { 
+        console.log(error);
         res.render('somethingWentWrong');
     }
 })

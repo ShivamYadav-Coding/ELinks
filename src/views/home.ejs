@@ -1,18 +1,59 @@
-<!doctype html>
+<!doctype html class="m-0">
 <html lang="en">
 <head>
   <%- include('./partials/header.ejs') %>
 <title>Home</title>
 </head>
-<body class="bg-gray-700 font-body box-border">
-   
+<body class="bg-gray-600 font-body box-border">
+
    <!-- Navbar -->
    <%- include('./partials/navbar.ejs') %>
-
-   <h1 class=" text-white">Hello <%= name %> this is the home page you are authenticated only for 5 minutes.</h1>
   
-  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nulla necessitatibus aut earum mollitia error repellat quae, similique iusto veniam quia officia sint voluptatum enim placeat excepturi! Hic cupiditate nulla minus magnam repellendus sequi doloremque! Cumque quo tempore suscipit fuga quam consequatur at! Nemo eaque quos ducimus vel eius repudiandae cumque exercitationem amet ullam hic assumenda tempore, aperiam ad aliquid, maiores enim tenetur officiis id mollitia ratione unde atque voluptatibus laborum. Iure, qui? Dignissimos non, repudiandae praesentium optio modi dolorum, sequi rem eligendi similique, ad tempore at molestias ipsam est consectetur officia molestiae odit quia possimus iste. In, cupiditate debitis! Sit cupiditate perferendis dignissimos, minus molestiae esse reprehenderit vitae quaerat ex sapiente quis, omnis tenetur reiciendis aliquam accusamus quasi neque itaque cum eveniet numquam accusantium facilis a. Ea quia, eum iste ad earum assumenda accusamus enim quas saepe beatae esse perspiciatis distinctio, similique pariatur natus consequuntur voluptatum facere culpa voluptate, nemo est maiores. Nisi ducimus soluta tempora fugit laborum, commodi reiciendis dolor, animi delectus, corrupti ea. Vitae, mollitia repellendus fuga magni quae facere excepturi odio voluptate expedita provident in incidunt inventore sapiente voluptas dolor libero possimus aperiam. Dolorem rerum quae labore id repudiandae assumenda eos cum officiis placeat ab sed esse et, dolor ipsa alias totam itaque cumque sint rem incidunt neque laboriosam possimus? Architecto, magni. Deleniti fugiat ducimus quas nemo, cum quos consectetur autem similique laborum minima voluptatem. Consequuntur, officiis alias. Veniam, quas alias expedita pariatur adipisci minima nisi reiciendis. Culpa eaque necessitatibus veniam odit odio laborum aliquam ullam laudantium. Dolorem vero amet perferendis. Veritatis, laboriosam? Obcaecati deleniti asperiores a earum, eveniet incidunt? Error fuga asperiores iure. Laboriosam beatae, magni voluptate repudiandae natus error impedit ea dolorem, odit dicta illum? Esse laboriosam quisquam velit totam, sit perspiciatis tenetur quibusdam minima. Reiciendis minima provident beatae reprehenderit cupiditate voluptas quibusdam aspernatur repellat sequi eveniet quae molestias ducimus incidunt, earum dignissimos, non adipisci tempore, asperiores libero magnam aut? Nobis quo voluptatem maxime ipsa inventore totam corrupti perferendis iusto? Dolore iure ex, neque omnis libero nostrum explicabo assumenda, a pariatur necessitatibus laborum accusantium. Dignissimos, consequuntur recusandae ipsum cupiditate corrupti atque ab eius laboriosam accusantium delectus enim! Minus sequi reiciendis incidunt consequuntur voluptas illo officiis delectus, omnis modi nostrum enim fugiat libero quis dolore voluptatum quidem, at perferendis ratione, numquam nihil quaerat? Ullam repellendus voluptatem porro reprehenderit repellat alias temporibus explicabo ex? Sequi est ab quam dolor aliquam beatae molestiae esse, a optio maiores repudiandae?</p>
+<div class="flex flex-col" id="mainContent">
+ 
+  <!-- Add new bookmark -->
+  <div class="text-center p-4">
+      <h1 class=" text-gray-100 ">Add New Bookmark</h1><br>
+      <form id="bookmarkForm" action="/bookmarks" method="POST" class="w-full flex flex-col md:flex-row md:items-start md:justify-around" onsubmit="return mySubmitFunction(event)">
+        <div class="md:w-3/12">
+        <input type="text" id="bookmarkName" name="bookmarkName" class="input w-full" placeholder="Enter bookmark name">
+        <p class="text-red-400 hidden" id="err1">Name is required.</p>
+        </div>
 
+        <div class="md:w-5/12">
+        <input type="url" id="bookmarkUrl" name="bookmarkUrl" class="input w-full" placeholder="Enter its URL">
+        <p class="text-red-400 hidden" id="err2">Url is required.</p>
+        </div>
+
+        <button type="submit" class="btn bg-gray-800 md:w-2/12" id="submitBtn">Add new Bookmark</button>
+      </form>
+      <hr>
+  </div>
+
+  <!-- Bookmarks -->
+  <div class="flex flex-wrap" id="bookmarkSec">
+    <% if(arr && arr.length > 0){ %>
+    <% for(var i=0; i<arr.length; i++){ %>
+    <div id="<%= arr[i]._id %>" class=" bg-gray-800 w-60 flex flex-col items-center rounded-lg m-4 p-2">
+      <h1 class="text-gray-50 overflow-x-auto"><%= arr[i].name %></h1>      
+      <p class="overflow-x-auto w-52 text-gray-100 my-2"><%= arr[i].address %></p>
+      <div class="flex justify-between w-full items-baseline my-2">
+      <a href='<%= arr[i].address %>' class="btn-link btn-link-blue text-center w-48" target="_blank" rel="noopener noreferrer">Visit</a>
+      <form action="/bookmarksDel" method="POST">
+      <input type="hidden" name="Id" value='<%= arr[i]._id %>'>
+      <button type="submit">
+      <i class="fas fa-trash text-red-500 text-2xl cursor-pointer"></i>
+      </button>
+      </form>
+      </div>
+    </div>
+    <% } %>
+    <% } %>
+  </div>
+</div>
+
+
+  <script src="/js/bookmark.js"></script>
   <script src="/js/script.js"></script>
   </body>
 </html>
