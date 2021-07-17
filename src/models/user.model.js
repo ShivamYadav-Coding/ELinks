@@ -57,7 +57,6 @@ userSchema.methods.generateAuthToken = async function(req, res) {
     }
     catch (error) {
         res.send("the error part " + error);
-        console.log("the error part " + error);
     }
 }
 

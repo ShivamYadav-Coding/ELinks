@@ -61,9 +61,7 @@ router.post("/register", async (req, res) => {
        }
 
     } catch (err) {
-        console.log('=====================================================================\n')
         const errors = errorFormatter(err.message);
-        console.log(errors);
         res.render('register', {formData: req.body, errors: errors});
         
     }
@@ -76,7 +74,7 @@ router.get('/verifyEmail/:str', async (req, res) => {
     if(user) {
         user.isVerified = true;
         user.tempString = undefined;
-        user.save().then(()=>{console.log('User Saved')}).catch(err => {console.log(err)});
+        await user.save();
         res.render('message', {
             message: {
                 heading: 'Email Verified Successfully ;)',

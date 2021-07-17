@@ -32,5 +32,5 @@ app.get('*', (req, res) => {
 
 const port = 3000||process.env.PORT;
 app.listen(port, () => {
-    console.log(`App is listening at http://localhost:${port}`)
+    console.log(`App is listening at http://localhost:${port}`);
   })

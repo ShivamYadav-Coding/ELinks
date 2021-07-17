@@ -5,9 +5,23 @@ const User = require('../models/user.model');
 const mail = require('../services/mail');
 const jwt = require('jsonwebtoken');
 
+const errorFormatter = e => {
+    const errors = {}
+    // "User validation failed: email: Email is required., name: Name is required., username: Path `username` is required., password: Password is required"
+    const allErrors = e.substring(e.indexOf(':') + 1).trim();
+    
+    const allErrorsInArrayFormat = allErrors.split(',').map(ele => ele.trim());
+    
+    allErrorsInArrayFormat.forEach(err => {
+        const [key, value] = err.split(':').map(ele => ele.trim());
+        errors[key] = value;
+    });
+
+    return errors;
+}
+
 router.get('/', auth, (req, res) => {
     const arr = req.user.bookmarks.slice();
-    console.log(arr);
     res.render('home', {
         arr
     });
@@ -34,7 +48,7 @@ router.post('/forgotPassword', async (req, res) => {
                 expiresIn : 60*15 // will expires in 15 minutes
               });
             const link = `${process.env.baseAddress}/resetPassword/${token}`;
-            mail.sendEmail(user.email, 'Reset password', 'A request has been made to reset password of your NoteYacht account. So, you can click on below link to reset your password.', link, 'Reset Password');
+            mail.sendEmail(user.email, 'Reset password', 'A request has been made to reset password of your NoteYacht account. So, you can click on below link to reset your password, please note that this link is validated for only 15 minutes.', link, 'Reset Password');
             res.render('message', {
                 message: {
                     heading: 'We have sent the reset link.',
@@ -94,6 +108,7 @@ router.get('/resetPassword/:token', (req, res) => {
 })
 
 router.post('/resetPassword', async (req, res) => {
+    try{
     const email = req.body.email;
     const password = req.body.password;
     const cpassword = req.body.confirmPassword;
@@ -103,7 +118,7 @@ router.post('/resetPassword', async (req, res) => {
     if(user) {
         if(password == cpassword) {
             user.password = password;
-            user.save();
+            await user.save();
             res.render('message', {
                 message: {
                     heading: 'Password changed',
@@ -127,6 +142,17 @@ router.post('/resetPassword', async (req, res) => {
     else {
         res.render('somethingWentWrong');
     }
+} catch(err) {
+    const errors = errorFormatter(err.message);
+    res.render('resetPassword', {
+        email: req.body.email,
+        formData: req.body, 
+        errors:{
+            type: 'Password mismatch',
+            message: errors.password
+        }
+    });
+}
 })
 
 module.exports = router;

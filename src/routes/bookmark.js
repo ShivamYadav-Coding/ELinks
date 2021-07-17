@@ -12,7 +12,6 @@ router.post('/bookmarks', auth, async (req, res) => {
     user.bookmarks.push(bookmark);
     
     await user.save();
-    console.log(user);
     res.redirect('/');
 })
 
