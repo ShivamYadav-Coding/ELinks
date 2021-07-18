@@ -49,7 +49,7 @@ router.post("/register", async (req, res) => {
            res.render('message', {
                message: {
                    heading: 'Verify your email',
-                   paragraph: 'We have sent a link to your specified email Id. Please link on that link to verify your Email.'
+                   paragraph: 'We have sent a link to your specified email Id. Please click on that link to verify your Email.   Also look for email in your spam folder.'
                }
            });
            

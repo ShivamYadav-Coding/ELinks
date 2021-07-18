@@ -52,7 +52,7 @@ router.post('/forgotPassword', async (req, res) => {
             res.render('message', {
                 message: {
                     heading: 'We have sent the reset link.',
-                    paragraph: 'A reset link has been sent to your specified email Id. Please click on it to reser your password.'
+                    paragraph: 'A reset link has been sent to your specified email Id. Please click on it to reset your password.  Also look for email in your spam folder.'
                 }
             });
         }
